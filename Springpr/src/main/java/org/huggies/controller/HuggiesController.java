@@ -14,7 +14,6 @@ public class HuggiesController {
 	}
 	@RequestMapping(value = "member/login", method = RequestMethod.GET)
 	public void login() {
-		
 	}
 	
 }
