@@ -28,9 +28,14 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
+		System.out.println(date);
+		// 날짜 형식을 정해주는 데이터포멧 클래스
+		// ex) 2022-01-05 or 2022/01/05 or 2022년 01월 05월
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		//데이터 참조변수와 데이터포멧 참조변수를 결합
 		
 		String formattedDate = dateFormat.format(date);
+		System.out.println(formattedDate);
 		
 		// request.setAttribute()와 동일
 		model.addAttribute("serverTime", formattedDate );
