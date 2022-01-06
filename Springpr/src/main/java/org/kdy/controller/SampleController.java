@@ -58,7 +58,7 @@ public class SampleController {
 
 	//	@RequestMapping(value = "sample/memberDTO", method = RequestMethod.POST)
 	@PostMapping("sample/memberDTO") // 위와 아래는 같은것 아래는 축약형
-	public String memberdto(SampleMemberDTO smd,Model model) { 
+	public String memberdto(SampleMemberDTO smd,Model model) {
 		System.out.println("id="+smd.getId());
 		System.out.println("pw="+smd.getPw());
 		System.out.println("name="+smd.getName());
