@@ -14,17 +14,21 @@
         rel="stylesheet">
 </head>
 <body>
-    <form action="/board/write" method="post">
+<h1>글 수정 화면입니다</h1>
+    <form action="/board/modify" method="post">
         <div class="form-group row">
-            <div class="col-sm-12 mb-3 mb-sm-0">
-                ${detail.title}
+            <div class="col-sm-12 mb-3 mb-sm-0"><!--인풋태그 타입에 히든을 쓰면 숨겨짐 혹은 속성 마지막에 readonly를 쓰면 수정이 불가능해짐-->
+                <input type="hidden" value="${detail.bno}" name="bno" class="form-control form-control-user" id="exampleFirstName" >
             </div>
             <div class="col-sm-12 mb-3 mb-sm-0">
-                ${detail.content}
+                <input type="text" value="${detail.title}" name="title" class="form-control form-control-user" id="exampleFirstName"
+                    placeholder="title">
             </div>
             <div class="col-sm-12 mb-3 mb-sm-0">
-                <a href="/board/modify?bno=${detail.bno}">수정</a>
-                <a href="/board/remove?bno=${detail.bno}">삭제</a>
+                <div><textarea name="content" class="form-control form-control-user" id="" cols="30" rows="20" placeholder="content">${detail.content}</textarea></div>
+            </div>
+            <div class="btn btn-primary btn-icon-sprit">
+                <input type="submit" value="글수정" class="btn btn-primary btn-icon-sprit">
             </div>
         </div>
     </form>

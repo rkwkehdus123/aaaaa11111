@@ -23,7 +23,11 @@ public class BoardServiceimpl implements BoardService{
     public BoardDTO detail(BoardDTO board) {
     	return bmapper.detail(board);
     }
-    
-    
-    
+    // 게시판 글수정 설계된것을 구현
+    public void modify(BoardDTO board) {
+        bmapper.modify(board);
+    }
+    public void remove(BoardDTO board) {
+        bmapper.remove(board);
+    }
 }
