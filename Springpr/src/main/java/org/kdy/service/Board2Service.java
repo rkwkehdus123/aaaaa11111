@@ -12,4 +12,6 @@ public interface Board2Service {
     public Board2DTO detail2(Board2DTO board2);
 
     public void modify2(Board2DTO board2);
+    
+    public void remove2(Board2DTO board2);
 }

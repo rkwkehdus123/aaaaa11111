@@ -2,6 +2,8 @@ package org.kdy.controller;
 
 
 import org.kdy.domain.BoardDTO;
+import org.kdy.domain.Criteria;
+import org.kdy.domain.PageDTO;
 import org.kdy.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,11 +34,11 @@ public class BoradController {
 	}
 	//게시판 목록 리스트
 	@GetMapping("list")
-	public void list(Model model) {
-		service.list();
+	public void list(Criteria cri, Model model) {
 		System.out.println("board/list");
-		System.out.println("list결과는"+service.list());
-		model.addAttribute("list", service.list());
+		System.out.println("list결과는"+service.list(cri));
+		model.addAttribute("list", service.list(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri,199));
 	}
 	//게시판 목록 리스트에서 제목을 클릭하면....
 	@GetMapping("detail")
@@ -76,3 +78,5 @@ public class BoradController {
 //4. 보드맵퍼.xml - (main/resorces/org/kdy/mapper)
 //5. 각 jsp파일
 //+보드DTO - (main/java/kdy.domain)
+//+크리테리아 - (main/java/kdy.domain)
+//+페이지DTO - (main/java/kdy.domain)

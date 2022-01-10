@@ -41,6 +41,32 @@
                         </c:forEach>
                     </tbody>
                 </table>
+                <form action="" method="get">
+                    <div class="form-control bg-light border-0 small">
+                        <select name="search">
+                            <option value="T">제목</option>
+                            <option value="C">내용</option>
+                            <option value="W">작성자</option>
+                            <option value="TC">제목 + 내용</option>
+                            <option value="TCW">제목 + 내용 + 작성자</option>
+                        </select>
+                        <input type="text" name="ketword">
+                        <input type="submit" value="검색">
+                    </div>
+                    <div>
+                        <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                            <ul class="pagination">
+                                <li class="paginayion_button page_item">${num}</li>
+                            </ul>
+                        </c:forEach>
+                        <!--
+                            for(int i=1; i<10; i++){
+                            System.out.println(i)
+                            }
+                           	위와 아래는 같음
+                        -->
+                    </div>
+                </form>
             </div>
         </div>
 </body>

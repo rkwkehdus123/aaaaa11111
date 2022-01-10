@@ -13,4 +13,16 @@
     <select id="detail2" resultType="org.kdy.domain.Board2DTO">
         select * from board2 where bno=#{bno}
     </select>
+    <update id="modify2">
+    	update board2
+        	set title=#{title},
+	        	content=#{content},
+            	regdate=now()
+        where bno=#{bno}
+    </update>
+    <delete id="remove2">
+        delete
+        from board2
+        where bno=#{bno}
+    </delete>
 </mapper>

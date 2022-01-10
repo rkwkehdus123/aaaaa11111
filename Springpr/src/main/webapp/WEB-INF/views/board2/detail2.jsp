@@ -17,7 +17,7 @@
         <div>${detail2.content}</div>
     </form>
     <a href="../board2/list2">목록으로</a>
-    <a href="../board2/modify2">수정</a>
-    <a href="../board2/remeve2">삭제</a>
+    <a href="../board2/modify2?bno=${detail2.bno}">수정</a>
+    <a href="../board2/remeve2?bno=${detail2.bno}">삭제</a>
 </body>
 </html>

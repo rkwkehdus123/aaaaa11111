@@ -11,4 +11,8 @@ public interface Board2Mapper {
     public void write2(Board2DTO board2);
     
     public Board2DTO detail2(Board2DTO board2);
+    
+    public void modify2(Board2DTO board2);
+    
+    public void remove2(Board2DTO board2);
 }

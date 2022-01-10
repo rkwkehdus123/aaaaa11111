@@ -27,4 +27,7 @@ public class Board2Serviceimpl implements Board2Service{
     public void modify2(Board2DTO board2) {
         b2Mapper.modify2(board2);
     }
+    public void remove2(Board2DTO board2) {
+        b2Mapper.remove2(board2);
+    }
 }

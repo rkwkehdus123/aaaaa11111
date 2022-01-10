@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("board2")
@@ -39,4 +40,17 @@ public class Borad2Controller {
     public void modify2(Board2DTO board2, Model model2) {
         model2.addAttribute("detail2",service2.detail2(board2));
     }
+    @PostMapping("modify2")
+	public String modify2Post(Board2DTO board2,RedirectAttributes rttr2) {
+		System.out.println(board2);
+		service2.modify2(board2);
+		rttr2.addAttribute("bno", board2.getBno());
+		return "redirect:/board2/detail2";
+    }
+    @GetMapping("remove2")
+	public String remove2(Board2DTO board2) {
+		System.out.println(board2);
+		service2.remove2(board2);
+		return "redirect:/board2/list2";
+	}
 }
