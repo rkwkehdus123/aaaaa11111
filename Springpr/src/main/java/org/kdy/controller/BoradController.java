@@ -38,7 +38,8 @@ public class BoradController {
 		System.out.println("board/list");
 		System.out.println("list결과는"+service.list(cri));
 		model.addAttribute("list", service.list(cri));
-		model.addAttribute("pageMaker", new PageDTO(cri,199));
+		int total=service.getTotalCount(cri);//변수로 저장해서 아래 괄호에 넣기(그냥 넣어도 됨)
+		model.addAttribute("pageMaker", new PageDTO(cri,total));
 	}
 	//게시판 목록 리스트에서 제목을 클릭하면....
 	@GetMapping("detail")
@@ -68,7 +69,7 @@ public class BoradController {
 		return "redirect:/board/list";
 	}
 }
-//그 다음 연관된것들
+//그 다음 연관된것들(반대로도 가능)
 //1. 보드서비스.java - (main/java/kdy/service)
 //   ↓
 //2. 보드서비스impl.java - (main/java/kdy/service)

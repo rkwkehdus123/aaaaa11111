@@ -18,9 +18,9 @@ public class PageDTO {
         this.cri=cri;
         this.total=total;
     	//(int)(Math.ceil(현재페이지번호/10.0))*10 계산된 결과를 endPage에 저장
-    	this.endPage=(int)(Math.ceil(cri.getPageNum()/10))*10;
-    	System.out.println();
-    	System.out.println();
+    	this.endPage=(int)(Math.ceil(cri.getPageNum()/10.0))*10;
+    	System.out.println("cri.getPageNum()="+cri.getPageNum());
+    	System.out.println("endPage="+endPage);
         //10-9=1, 20-9=11....
     	this.startPage=endPage-9;
         //전체건수를 고려한 endPage->realEnd
