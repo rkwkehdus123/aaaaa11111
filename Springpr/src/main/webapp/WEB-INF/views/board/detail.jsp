@@ -25,7 +25,7 @@
 <body>
    	<div class="form-group row">
         <div id="bno" class="col-sm-12 mb-3 mb-sm-0">
-            ${detail.bno} 
+            ${detail.bno}
         </div>
         <div class="col-sm-12 mb-3 mb-sm-0">
             ${detail.title}
@@ -33,6 +33,7 @@
         <div class="col-sm-12 mb-3 mb-sm-0">
             ${detail.content}
         </div>
+    </div>  
         <div class="col-sm-12 mb-3 mb-sm-0">
             <a href="/board/modify?bno=${detail.bno}">수정</a>
             <a href="/board/remove?bno=${detail.bno}">삭제</a>
@@ -43,15 +44,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            <h4 class="modal-title" id="myModalLabel">댓글</h4>
                         </div>
                         <div class="modal-body">
-                        	<div>
+                        	<div class="modal-body">
                                 <label>Replyer</label>
                                 <input type="text" name="replyer">
                             </div>
-                            <div>
+                            <div class="modal-body">
                                 <label>Reply</label>
                                 <input type="text" name="reply">
                             </div>
@@ -66,6 +66,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 </body>
 </html>
