@@ -1,10 +1,15 @@
 package org.kdy.controller;
 
+import java.util.ArrayList;
+
 import org.kdy.domain.ReplyDTO;
 import org.kdy.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +27,26 @@ public class ReplyController {
     // * 생략을 하게 되면, 웹브라우저가 알아서 타입을 판단 *
     @PostMapping(value="new",consumes="application/json",produces={MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> create(@RequestBody ReplyDTO rdto){ //requestBody : js의 reply를 받을 수 있도록 도와줌
-        System.out.println("rdto="+rdto);
-        rservice.write(rdto);
-        return null;
+        System.out.println("ReplyDTO="+rdto);
+        //insert성공시 ReplyMapper.java로 부터 1
+    	//insert성공시 ReplyMapper.java로 부터 0
+        //값을 리턴받는다
+        int result=rservice.write(rdto);
+        //insert가 정상적으로 처리되었을 때,
+        //insert가 비정상적으로 처리되었을 때,
+        return result==1?new ResponseEntity<>("success",HttpStatus.OK)
+        				:new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @GetMapping(value="list/{bno}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<ArrayList<ReplyDTO>>getList(@PathVariable int bno){//@PathVariable : REST방식에서 주로 사용
+        System.out.println(bno);
+        return new ResponseEntity<>(rservice.list(bno),HttpStatus.OK);
+
+    }
+    // 댓글 수정을 하기 위해 댓글내용 가져오기
+    @GetMapping(value="{rno}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<ReplyDTO>getDetail(@PathVariable int rno){//@PathVariable : REST방식에서 주로 사용
+        System.out.println(rno);
+        return new ResponseEntity<>(rservice.detail(rno),HttpStatus.OK);
     }
 }

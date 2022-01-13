@@ -28,7 +28,7 @@ public class BoradController {
 	@PostMapping("write") //똑같은 이름이라도 한쪽은 겟이고 한쪽은 포스트이기 때문에 상관없음
 	public String writepost(BoardDTO board) {
 		service.write(board);
-		System.out.println("write post...."+board);//변수값을 넣는거기 때문에 DTO가 아닌 그냥 보드를 넣음
+//		System.out.println("write post...."+board);//변수값을 넣는거기 때문에 DTO가 아닌 그냥 보드를 넣음
 		
 		return "redirect:/board/list";
 	}

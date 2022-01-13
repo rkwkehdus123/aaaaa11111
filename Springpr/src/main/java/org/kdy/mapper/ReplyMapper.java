@@ -1,8 +1,17 @@
 package org.kdy.mapper;
 
+import java.util.ArrayList;
+
 import org.kdy.domain.ReplyDTO;
 
 public interface ReplyMapper {
 	//댓글쓰기 설계
-	public void write(ReplyDTO rdto);
+	//insert성공시 ReplyMapper.java로 부터 1
+	//insert성공시 ReplyMapper.java로 부터 0
+	//값을 리턴받는다
+	public int write(ReplyDTO rdto);
+
+	public ArrayList<ReplyDTO> list(int bno);
+
+	public ReplyDTO detail(int rno);
 }
