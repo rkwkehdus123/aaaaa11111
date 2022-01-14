@@ -48,11 +48,14 @@
                             <h4 class="modal-title" id="myModalLabel">댓글</h4>
                         </div>
                         <div class="modal-body">
-                        	<div class="modal-body">
+                        	<div>
+                                <input type="text" name="rno">
+                            </div>
+                        	<div>
                                 <label>Replyer</label>
                                 <input type="text" name="replyer">
                             </div>
-                            <div class="modal-body">
+                            <div>
                                 <label>Reply</label>
                                 <input type="text" name="reply">
                             </div>

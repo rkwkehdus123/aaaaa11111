@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,10 +34,9 @@ public class ReplyController {
     	//insert성공시 ReplyMapper.java로 부터 0
         //값을 리턴받는다
         int result=rservice.write(rdto);
-        //insert가 정상적으로 처리되었을 때,
-        //insert가 비정상적으로 처리되었을 때,
-        return result==1?new ResponseEntity<>("success",HttpStatus.OK)
-        				:new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        
+        return result==1?new ResponseEntity<>("success",HttpStatus.OK)             //insert가 정상적으로 처리되었을 때,
+                        :new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  //insert가 비정상적으로 처리되었을 때,
     }
     @GetMapping(value="list/{bno}",produces={MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<ArrayList<ReplyDTO>>getList(@PathVariable int bno){//@PathVariable : REST방식에서 주로 사용
@@ -48,5 +49,17 @@ public class ReplyController {
     public ResponseEntity<ReplyDTO>getDetail(@PathVariable int rno){//@PathVariable : REST방식에서 주로 사용
         System.out.println(rno);
         return new ResponseEntity<>(rservice.detail(rno),HttpStatus.OK);
+    }
+    @PutMapping(value = "update",consumes="application/json",produces={MediaType.TEXT_PLAIN_VALUE})
+    public ResponseEntity<String> update(@RequestBody ReplyDTO rdto){
+        System.out.println("rdto="+rdto);
+        return rservice.update(rdto)==1?new ResponseEntity<>("success",HttpStatus.OK)             //update가 정상적으로 처리되었을 때,
+                        			   :new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  //update가 비정상적으로 처리되었을 때,
+    }
+    @DeleteMapping(value = "remove",consumes="application/json",produces={MediaType.TEXT_PLAIN_VALUE})
+    public ResponseEntity<String> remove(@RequestBody ReplyDTO rdto){
+
+        return rservice.remove(rdto)==1?new ResponseEntity<>("success",HttpStatus.OK)             //remove가 정상적으로 처리되었을 때,
+                        			   :new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  //remove가 비정상적으로 처리되었을 때,
     }
 }

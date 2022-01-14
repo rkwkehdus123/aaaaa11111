@@ -1,6 +1,8 @@
 /**
  * 
  */
+
+
 $(document).ready(function(){
 	//상세페이지가 실행되면 댓글 글쓰기 버튼 활성화
 	$("#modalRegisterBtn").show();
@@ -35,22 +37,22 @@ $(document).ready(function(){
 	    	var str="";
 	    	
 	    	for(var i=0; i<list.length; i++){
-	    		str+="<li><div><b>"+list[i].replyer+"</b></div>"
+	    		str+="<li data-rno='"+list[i].rno+"'><div><b>"+list[i].replyer+"</b></div>"
                 str+="<div>"+list[i].reply+"</div>"
                 str+="</li>"
 	    	}
-//	    	str+=list[0].reply+"<br>"
-//	    	str+=list[1].reply+"<br>"
-//	    	str+=list[2].reply+"<br>"
-//	    	str+=list[3].reply+"<br>"
-//	    	str+=list[4].reply+"<br>"
-//	    	str+=list[5].reply+"<br>"
+	    	// str+=list[0].reply+"<br>"
+	    	// str+=list[1].reply+"<br>"
+	    	// str+=list[2].reply+"<br>"
+	    	// str+=list[3].reply+"<br>"
+	    	// str+=list[4].reply+"<br>"
+	    	// str+=list[5].reply+"<br>"
 	    	
 	    	$("#relist").html(str)
     	});
     }
 
-    //console.log(replyService);
+    
     //댓글쓰기 버튼(id값이 #modalRegisterBtn)을 클릭하면
     $("#modalRegisterBtn").on("click",function(){
     	// 사용자가 입력한 댓글내용을 저장
@@ -70,13 +72,17 @@ $(document).ready(function(){
         //모달창을 숨겨라
         $(".modal").modal("hide");
     })//모달창안에 댓글쓰기 버튼
+    
     //댓글내용을 클릭하면(수정 및 삭제를 하기 위해서)
-    $("#relist").on("click",function(){
+    $("#relist").on("click","li",function(){
     	
-        replyService.reDetail(14,function(detail){
-        	console.log(detail.replyer)
-        	console.log(detail.reply)
+        //rno값을 가져오기
+    	var rno=$(this).data("rno");
 
+        replyService.reDetail(rno,function(detail){
+        	console.log(detail)
+        	
+        	$("input[name='rno']").val(detail.rno)
             $("input[name='replyer']").val(detail.replyer)
             $("input[name='reply']").val(detail.reply)
 
@@ -89,57 +95,127 @@ $(document).ready(function(){
         	//모달창을 띄워라
         	$(".modal").modal("show");
         })
-    	
     })
     
-})
-var replyService=(function(){// replyService 함수 선언
-    //댓글쓰기를 하기 위한 함수 선언
-    function add(reply,callback){
-        console.log("reply.................")
-        $.ajax({
-        	url:"/replies/new",
-            type:"post",
-            data:JSON.stringify(reply), //JSON.stringify : 자바스크립트의 값을 JSON 문자열로 변환
-            contentType:"application/json;charset=utf-8",
-            success:function(result){ //통신이 정상적으로 성공했으면
-            	//callback함수 선언
-            	//만약에 callback이 있으면
-            	if(callback)
-            	//callback함수를 호출
-            		callback(result);
-            	
-            }, 
-            error:function(){} //통신이 비정상적으로 처리가 되어 error가 있으면
-        })
-    }
-    //댓글목록리스트를 하기 위한 함수 선언 
-    function getList(param,callback){
-        var bno=param.bno;
-        console.log(bno);
-    	$.getJSON(
-    			"/replies/list/"+bno+".json",
-    			function(data){
-                    if(callback)
-                        callback(data);
-                })
-    	
-    }
-    //댓글수정을 하기 위해 댓글 내용 가져오기 함수 선언
-    function reDetail(rno,callback){
-        var rno=rno;
-        $.getJSON(
-                "/replies/"+rno+".json",
-                function(data){
-                    if(callback)
-                        callback(data);
-                })
-    }
-    //댓글삭제를 하기 위한 함수 선언
+    //댓글수정버튼을 클릭하면
+    $("#modalModBtn").on("click",function(){
+    //      alert("aa");
+        var reply={rno:$("input[name='rno']").val(),reply:$("input[name='reply']").val()}
 
-    return {
-    	add:add,
-    	getList:getList,
-        reDetail:reDetail
-    	};
-})()
+        //댓글수정함수를 호출해서 처리
+        replyService.reupdate(reply,function(update){
+        	//콜백영역(update가 정상적으로 처리된 후 조치)
+        	alert("update 작업 : "+update)
+            //모달창 닫고
+            $(".modal").modal("hide");
+            //목록리스트 실행
+            showList();
+        })
+    })
+    //댓글 삭제 버튼을 클릭하면
+    $("#modalRemoveBtn").on("click",function(){
+    			//alert("aa");
+                var reply={rno:$("input[name='rno']").val()}
+                //댓글 삭제 함수를 호출해서 처리
+                replyService.remove(reply,function(remove){
+                    //콜백영역(update가 정상적으로 처리된 후 조치)
+                    alert("delete 작업 : "+remove)
+                    //모달창 닫고
+                    $(".modal").modal("hide");
+                    //목록리스트 실행
+                    showList();
+                })
+    })
+})
+var replyService=(
+		function(){// replyService 함수 선언
+		    //댓글쓰기를 하기 위한 함수 선언
+		    function add(reply,callback){
+		        console.log("reply.................")
+		        $.ajax({
+		        	url:"/replies/new",
+		            type:"post",
+		            data:JSON.stringify(reply), //JSON.stringify : 자바스크립트의 값을 JSON 문자열로 변환
+		            contentType:"application/json;charset=utf-8",
+		            success:function(result){ //통신이 정상적으로 성공했으면
+		            	//callback함수 선언
+		            	//만약에 callback이 있으면
+		            	if(callback)
+		            	//callback함수를 호출
+		            		callback(result);
+		            	
+		            }, 
+		            error:function(){} //통신이 비정상적으로 처리가 되어 error가 있으면
+		        })
+		    }
+		    //댓글목록리스트를 하기 위한 함수 선언 
+		    function getList(param,callback){
+		        var bno=param.bno;
+		        console.log(bno);
+		    	$.getJSON(
+		    			"/replies/list/"+bno+".json",
+		    			function(data){
+		                    if(callback)
+		                        callback(data);
+		                })
+		    	
+		    }
+		    //댓글수정을 하기 위해 댓글 내용 가져오기 함수 선언
+		    function reDetail(rno,callback){
+		        var rno=rno;
+		        $.getJSON(
+		                "/replies/"+rno+".json",
+		                function(data){
+		                    if(callback)
+		                        callback(data);
+		                })
+		    }
+		    //댓글수정을 하기 위한 함수 선언
+		    function reupdate(reply,callback){
+		        $.ajax({
+		        	url:"/replies/update",
+		            type:"put",
+		            data:JSON.stringify(reply),
+		            contentType:"application/json;charset=utf-8",
+		            success:function(result){ //통신이 정상적으로 성공했으면
+		            	//callback함수 선언
+		            	//만약에 callback이 있으면
+		            	if(callback)
+		            	//callback함수를 호출
+		            		callback(result);
+		            	
+		            },
+		            error:function(){} //통신이 비정상적으로 처리가 되어 error가 있으면
+		        })
+		    }
+		    
+		    //댓글삭제를 하기 위한 함수 선언
+		    function remove(reply,callback){
+		        $.ajax({
+		        	url:"/replies/remove",
+		            type:"delete",
+		            data:JSON.stringify(reply),
+		            contentType:"application/json;charset=utf-8",
+		            success:function(result){ //통신이 정상적으로 성공했으면
+		            	//callback함수 선언
+		            	//만약에 callback이 있으면
+		            	if(callback)
+		            	//callback함수를 호출
+		            		callback(result);
+		            	
+		            },
+		            error:function(){} //통신이 비정상적으로 처리가 되어 error가 있으면
+		        })
+		    }
+		    return {
+		    	add:add,
+		    	getList:getList,
+		        reDetail:reDetail,
+		        reupdate:reupdate,
+		        remove:remove
+		    	};
+		}
+		
+		
+		
+)()
