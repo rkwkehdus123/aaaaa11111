@@ -23,7 +23,8 @@
 	
 	<context:component-scan base-package="org.kdy.controller" />
 	<context:component-scan base-package="org.huggies.controller" />
-	
+	<beans:bean id="multipartResover" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</beans:bean>
 	
 	
 </beans:beans>
