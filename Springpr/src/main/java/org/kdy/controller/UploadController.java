@@ -11,10 +11,14 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.kdy.domain.AttachFileDTO;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -184,6 +188,54 @@ public class UploadController {
     	}// for문 end
         // 통신상태가 정상적(HttpStatus.OK)이면 ArrayList(List)에 저장되어있는 값을 uploadAjax.js에 있는 ajax에 success로 보내라.
         return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+    //파일업로드한 파일타입이 이미지일때(.jpg .png 등등) 웹브라우저에 이미지를 띄우기 위해서....
+    @GetMapping("display")
+    public ResponseEntity<byte[]> getFile(String fileName) { //getFile()은 문자열로 파일의 경로가 포함된 fileName을 매개변수 받고 byte[](이진수)를 전송
+        System.out.println("url주소를 통한 fileName="+fileName);
+
+        File file = new File("D:\\01-STUDY\\upload\\"+fileName);
+
+        System.out.println("file="+file);
+
+        ResponseEntity<byte[]> result = null;
         
+        //byte[]로 이미지 파일의 데이터를 전송할 때 브라우저에 보내는 MIME타입이 파일의 종류(jpg, png, xls, ppt)에 따라 달라짐
+        //dl qnqnsdmf gorufgkrl dnlgotj probeContentType()을 이용해서 적절한 MIME 타입 데이터를 http의 헤더 메세지에 포함할 수 있도록 처리
+
+        HttpHeaders header = new HttpHeaders();
+        try {
+            result=new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),header,HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //파일업로드한 파일타입이 이미지가 아닐때(.xls .ppt .txt) 웹브라우저를 통해서 다운로드 할 수 있도록....
+    //댓글쓰기를 하기 위한 RequestMapping
+    //Mapping을 할때 우리가 원하는 데이터 타입을 강제함으로써 오류상황을 줄일 수 있다.
+    //consumes : 들어오는 데이터 타입 정의(생략가능)
+    //produces : 변환하는 데이터 타입 정의(생략가능)
+    // * 생략을 하게 되면, 웹브라우저가 알아서 타입을 판단 *
+    //웹브라우저가 이 파일은 다운로드해야하는 파일입니다.라는 것을 인지할 수 있도록 반환이 되어야 함
+    //그러기 위해서는 APPLICATION_OCTET_STREAM_VALUE 타입으로 반환데이터 타입을 선언해야함
+    @GetMapping(value = "download",produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<Resource> downloadFile(String fileName) {
+        System.out.println("download fileName="+fileName);
+
+        Resource resource = new FileSystemResource("D:\\01-STUDY\\upload\\"+fileName);
+
+        System.out.println("download fileName="+resource);
+
+        String resourceName = resource.getFilename();
+
+        HttpHeaders header = new HttpHeaders();
+
+        try {
+            header.add("Content-Disposition", "attachment; filename="+new String(resourceName.getBytes("UTF-8"),"ISO-8859-1"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<Resource>(resource,header,HttpStatus.OK);
     }
 }

@@ -1,5 +1,7 @@
 package org.kdy.domain;
 
+import java.util.ArrayList;
+
 public class BoardDTO {
     private int bno; // 외부에서 값을 함부러 바꾸지 못하게 private를 붙여씀
     private String title;
@@ -8,6 +10,16 @@ public class BoardDTO {
     private String regdate; // 데이트타임이 없어서 그냥 스트링을 씀
     private int cnt;
     private int good;
+
+    private ArrayList<AttachFileDTO> AttachList;
+
+    public ArrayList<AttachFileDTO> getAttachList() {
+        return this.AttachList;
+    }
+
+    public void setAttachList(ArrayList<AttachFileDTO> AttachList) {
+        this.AttachList = AttachList;
+    }
 
     public int getBno() {
         return this.bno;
@@ -65,10 +77,10 @@ public class BoardDTO {
         this.good = good;
     }
 
-	@Override //클래스들은 기본적으로 오브젝트를 상속받는데 그중에 투스트링은 주소를 나타냄 그래서 이렇게 오버라이딩으로 투스트링을 다른걸로 바꿔줘야함
+	@Override
 	public String toString() {
 		return "BoardDTO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer
-				+ ", regdate=" + regdate + ", cnt=" + cnt + ", good=" + good + "]";
+				+ ", regdate=" + regdate + ", cnt=" + cnt + ", good=" + good + ", AttachList=" + AttachList + "]";
 	}
     
 

@@ -5,7 +5,8 @@ public class AttachFileDTO {
     private String uploadPath;
     private String uuid;
     private boolean image;
-    
+	private int bno;
+	
 	public String getFileName() {
 		return fileName;
 	}
@@ -30,12 +31,17 @@ public class AttachFileDTO {
 	public void setImage(boolean image) {
 		this.image = image;
 	}
+	public int getBno() {
+		return bno;
+	}
+	public void setBno(int bno) {
+		this.bno = bno;
+	}
 	@Override
 	public String toString() {
 		return "AttachFileDTO [fileName=" + fileName + ", uploadPath=" + uploadPath + ", uuid=" + uuid + ", image="
-				+ image + "]";
+				+ image + ", bno=" + bno + "]";
 	}
-
 	
-    
+	
 }
