@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    
+        <div>글번호 : ${detail2.bno}</div>
         <h1>${detail2.title}</h1>
         <div>작성자 : ${detail2.writer}</div>
         <div>조회수 : ${detail2.cnt}</div>

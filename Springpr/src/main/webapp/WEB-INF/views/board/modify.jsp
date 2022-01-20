@@ -18,7 +18,7 @@
     <form action="/board/modify" method="post">
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0"><!--인풋태그 타입에 히든을 쓰면 숨겨짐 혹은 속성 마지막에 readonly를 쓰면 수정이 불가능해짐-->
-                <input type="hidden" value="${detail.bno}" name="bno" class="form-control form-control-user" id="exampleFirstName" >
+                <input type="text" value="${detail.bno}" name="bno" class="form-control form-control-user" id="exampleFirstName" >
             </div>
             <div class="col-sm-12 mb-3 mb-sm-0">
                 <input type="text" value="${detail.title}" name="title" class="form-control form-control-user" id="exampleFirstName"

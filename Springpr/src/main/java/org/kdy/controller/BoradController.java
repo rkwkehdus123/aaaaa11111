@@ -1,14 +1,21 @@
 package org.kdy.controller;
 
 
+import java.util.ArrayList;
+
+import org.kdy.domain.AttachFileDTO;
 import org.kdy.domain.BoardDTO;
 import org.kdy.domain.Criteria;
 import org.kdy.domain.PageDTO;
 import org.kdy.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,9 +34,8 @@ public class BoradController {
 	// 글쓰기 버튼을 클릭하면
 	@PostMapping("write") //똑같은 이름이라도 한쪽은 겟이고 한쪽은 포스트이기 때문에 상관없음
 	public String writepost(BoardDTO board) {
+		System.out.println("write post...."+board);//변수값을 넣는거기 때문에 DTO가 아닌 그냥 보드를 넣음
 		service.write(board);
-//		System.out.println("write post...."+board);//변수값을 넣는거기 때문에 DTO가 아닌 그냥 보드를 넣음
-		
 		return "redirect:/board/list";
 	}
 	//게시판 목록 리스트
@@ -46,6 +52,14 @@ public class BoradController {
 	public void detail(BoardDTO board, Model model) {
 		model.addAttribute("detail",service.detail(board));
 	}
+
+
+	//게시판 상세페이지에서 이미지를 출력하기 위한 셀렉트 된 결과를 자바스크립트로...
+	@GetMapping(value = "fileList/{bno}",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<ArrayList<AttachFileDTO>> fileList(@PathVariable int bno){
+		return new ResponseEntity<>(service.fileList(bno),HttpStatus.OK);
+	}
+
 	//글수정 화면으로.....
 	@GetMapping("modify")
 	public void modify(BoardDTO board, Model model) {

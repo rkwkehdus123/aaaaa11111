@@ -11,11 +11,13 @@
 </head>
 <body>
     <form action="/board2/modify2" method="post">
+        <input type="text" name="bno" value="${detail2.bno}" readonly>
         <h1><input type="text" name="title" value="${detail2.title}"></h1>
         <div>작성자 : ${detail2.writer}</div>
         <div>조회수 : ${detail2.cnt}</div>
         <div><textarea name="content" id="" cols="30" rows="10">${detail2.content}</textarea></div>
+        <button type="submit" value="글수정">글수정</button>
     </form>
-    <button type="submit" value="글수정">글수정</button>
+    
 </body>
 </html> 

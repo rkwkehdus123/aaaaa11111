@@ -24,9 +24,9 @@ $(document).ready(function(){
 	var formObj = $("form[role='form']")
     //글쓰기 버튼을 클릭하면
     $("input[type='submit']").on("click",function(e){
-        e.preventDefault();
+//        e.preventDefault();
         var str="";
-        //li태그에 있는
+        //li태그에 있는 data선택자를 이용하여 input태그의 value값으로 세팅
         $("#uploadResult ul li").each(function(i,obj){
             console.log(obj);
             //data선택자를 이용하여 인풋태그의 밸류값으로 세팅
@@ -37,19 +37,23 @@ $(document).ready(function(){
              * <span data-age="13">
              * #("span").data("age") => 13 data함수 괄호안에 매개변수가 하나면 getter
              * */
-            str+="<input type='text' name='attachList["+i+"].fileName' value='"+$(obj).data("filename")+"'>"
-            str+="<input type='text' name='attachList["+i+"].uuid' value='"+$(obj).data("uuid")+"'>"
-            str+="<input type='text' name='attachList["+i+"].uploadPath' value='"+$(obj).data("path")+"'>"
-            str+="<input type='text' name='attachList["+i+"].image' value='"+$(obj).data("type")+"'>"
+            str+="<input type='hidden' name='attachList["+i+"].fileName' value='"+$(obj).data("filename")+"'>"
+            str+="<input type='hidden' name='attachList["+i+"].uuid' value='"+$(obj).data("uuid")+"'>"
+            str+="<input type='hidden' name='attachList["+i+"].uploadPath' value='"+$(obj).data("path")+"'>"
+            str+="<input type='hidden' name='attachList["+i+"].image' value='"+$(obj).data("type")+"'>"
         })
-        formObj.append(str);
+        formObj.append(str).submit();
+        //.html()과 달리 append는 덮어쓰기가 아니라 추가를 해줌
+        //.submit은 'append함과 동시에 submit을 해라'라는 의미
+
+        
     })
 
 
 
 
-	$("input[type='submit']").on("click",function(e){
-        // alert("aaa")
+	$("input[type='file']").on("change",function(e){
+//         alert("aaa")
         //가상의 form태그
         var formData = new FormData();
         var inputFile = $("input[name='uploadFile']");

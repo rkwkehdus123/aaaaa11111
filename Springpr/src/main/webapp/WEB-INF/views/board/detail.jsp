@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>detail</title>
 <link rel="stylesheet" href="../resources/css/write.css">
 <link rel="stylesheet" href="../resources/css/all.css">
 <link rel="stylesheet" href="../resources/css/sb-admin-2.css">
@@ -36,6 +36,10 @@
             <a href="/board/modify?bno=${detail.bno}">수정</a>
             <a href="/board/remove?bno=${detail.bno}">삭제</a>
         </div>
+        <div id="uploadResult">
+			<ul></ul>
+	    </div>
+        
         <div>
             <button id="addReplyBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">댓글</button>
 

@@ -4,6 +4,43 @@
 
 
 $(document).ready(function(){
+	//bno값
+	var bno=$("#bno").html();
+
+	//상세페이지가 시작되자마자 이미지를 출력하기 위한 ajax
+	$.getJSON("/board/fileList/"+bno+".json",
+		function(data){ //보드컨트롤러에 있는 fileList를 통해 얻어진 select결과를 data에 저장한 후,
+			//datail.jsp에 뿌리기
+			console.log(data)
+			var str="";
+			$(data).each(function(i,obj){
+				if(!obj.image){ //사용자가 업로드한 파일의 타입이 이미지가 아니면(엑셀문서 파일, ppt파일 등등)
+					var fileCallPath=encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName)
+					str+="<li data-path='"+obj.uploadPath+"'";
+					str+="data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+					str+="<li><a href='download?fileName="+fileCallPath+"'>"+obj.fileName+"</li>"
+				}else{ //사용자가 업로드한 파일의 타입이 이미지가 맞으면(.jpg, .png, .gif)
+					var fileCallPath=encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName)
+					console.log(fileCallPath)
+					//img태그를 사용해서 웹브라우저에 이미지 출력
+					str+="<li data-path='"+obj.uploadPath+"'";
+					str+="data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+					str+="<img src='/display?fileName="+fileCallPath+"'></li>"
+				}
+			})
+			$("#uploadResult ul").html(str)
+			
+		})
+
+
+
+
+
+
+
+
+
+
 	//상세페이지가 실행되면 댓글 글쓰기 버튼 활성화
 	$("#modalRegisterBtn").show();
 	//상세페이지가 실행되면 댓글 글수정 버튼 활성화
@@ -23,8 +60,7 @@ $(document).ready(function(){
     	//모달 창을 띄워라
         $(".modal fade").modal("show");
     });
-    //bno값
-    var bno=$("#bno").html();
+    
     
     showList(); //호출부, detail.jsp가 실행되자마자 댓글목록리스트가 실행되어야함
     
@@ -61,7 +97,7 @@ $(document).ready(function(){
     	var replyer=$("input[name='replyer']").val();
 
         //글쓰기 버튼 비활성화
-        
+        $("#modalRegisterBtn").show();
     	//                ajax로 보내고자하는 json타입				   
         replyService.add({reply:reply,replyer:replyer,bno:bno},
         		function(result){   //callback함수호출

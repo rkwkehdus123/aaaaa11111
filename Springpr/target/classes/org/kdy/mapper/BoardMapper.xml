@@ -8,6 +8,16 @@
         insert into board(title,content,writer,regdate)
         values(#{title},#{content},#{writer},now())
     </insert>
+		
+	<!--보드 테이블에 inset 하기전에 bno값을 미리 만들어놓고 insert 해야함-->
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select max(bno)+1 bno from board;
+		</selectKey>
+		insert into board(bno,title,content,writer,regdate)
+        values(#{bno},#{title},#{content},#{writer},now())
+	</insert>
+	
     <select id="list" resultType="org.kdy.domain.BoardDTO">
         select*
 			from(
